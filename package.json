@@ -15,7 +15,10 @@
     "url": "git+https://github.com/luisgbr1el/backloggd-wrapper.git"
   },
   "license": "MIT",
-  "author": "luisgbr1el",
+  "author": {
+    "name": "Luis Gabriel Araújo",
+    "email": "luisgabrielaraujo8@gmail.com"
+  },
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
