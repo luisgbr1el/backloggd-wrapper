@@ -1,0 +1,28 @@
+{
+  "name": "backloggd-wrapper",
+  "version": "1.0.0",
+  "description": "A lightweight Node.js wrapper for scraping user profiles, statistics, and review data from Backloggd.",
+  "keywords": [
+    "backloggd",
+    "wrapper"
+  ],
+  "homepage": "https://github.com/luisgbr1el/backloggd-wrapper#readme",
+  "bugs": {
+    "url": "https://github.com/luisgbr1el/backloggd-wrapper/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luisgbr1el/backloggd-wrapper.git"
+  },
+  "license": "MIT",
+  "author": "luisgbr1el",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "axios": "^1.18.1",
+    "cheerio": "^1.2.0"
+  }
+}
