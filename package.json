@@ -4,7 +4,10 @@
   "description": "A lightweight Node.js wrapper for scraping user profiles, statistics, and review data from Backloggd.",
   "keywords": [
     "backloggd",
-    "wrapper"
+    "wrapper",
+    "nodejs",
+    "npm",
+    "games"
   ],
   "homepage": "https://github.com/luisgbr1el/backloggd-wrapper#readme",
   "bugs": {
