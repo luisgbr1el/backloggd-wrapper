@@ -1,5 +1,5 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+import axios from 'axios';
+import * as cheerio from 'cheerio';
 
 const baseUrl = "https://backloggd.com";
 
@@ -20,7 +20,7 @@ function parseNumber(val) {
     return isNaN(parsed) ? null : parsed;
 }
 
-async function userInfo(username) {
+export async function userInfo(username) {
     try {
         const response = await client.get(`${baseUrl}/u/${username}`);
         const html = response.data;
@@ -71,14 +71,14 @@ async function userInfo(username) {
             stats: profileStats
         };
     } catch (err) {
-        if (err.response && err.response.status === 404) {
+        if (err.response && err.response.status === 404)
             throw new Error(`User '${username}' not found. Check if the username is correct.`, { cause: err });
-        }
-        throw new Error(`Error fetching user profile for '${username}'.`, { cause: err.message });
+
+        throw new Error(`Error fetching user profile for '${username}'.`, { cause: err });
     }
 }
 
-async function latestReview(username) {
+export async function latestReview(username) {
     try {
         const response = await client.get(`${baseUrl}/u/${username}/reviews`);
         const html = response.data;
@@ -86,9 +86,8 @@ async function latestReview(username) {
 
         const reviewLinkEl = $('.user-reviews div .review-card .open-review-link').first().attr('href');
 
-        if (!reviewLinkEl) {
+        if (!reviewLinkEl)
             throw new Error(`No reviews found for user '${username}'.`);
-        }
 
         const latestReviewUrl = `${baseUrl}${reviewLinkEl}`;
 
@@ -101,9 +100,8 @@ async function latestReview(username) {
         let gameRating = null;
         if (gameRatingStyle && gameRatingStyle.includes(':')) {
             const widthMatch = gameRatingStyle.match(/\d+/);
-            if (widthMatch) {
+            if (widthMatch)
                 gameRating = parseInt(widthMatch[0], 10) / 20;
-            }
         }
 
         const playType = $('.user-reviews').find('.play-type').first().text().trim() || null;
@@ -142,14 +140,9 @@ async function latestReview(username) {
         };
 
     } catch (err) {
-        if (err.message.includes("No reviews found")) {
+        if (err.message && err.message.includes("No reviews found"))
             throw err;
-        }
-        throw new Error(`Error fetching the latest review for '${username}'.`, { cause: err.message });
+
+        throw new Error(`Error fetching the latest review for '${username}'.`, { cause: err });
     }
 }
-
-module.exports = {
-    userInfo,
-    latestReview
-};

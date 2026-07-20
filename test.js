@@ -1,11 +1,18 @@
-const backloggd = require("./index");
+import { userInfo, latestReview } from './index.js';
 
 async function test() {
-    let userInfo = await backloggd.userInfo("luisgbr1el");
-    console.log(userInfo);
+    try {
+        const user = await userInfo("luisgbr1el");
+        console.log(user);
 
-    let latestReview = await backloggd.latestReview("luisgbr1el");
-    console.log(latestReview);
+        const review = await latestReview("luisgbr1el");
+        console.log(review);
+    } catch (error) {
+        console.error("Error:", error.message);
+        
+        if (error.cause)
+            console.error("Cause:", error.cause);
+    }
 }
 
 test();

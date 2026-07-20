@@ -12,15 +12,35 @@ npm install backloggd-wrapper
 
 ## Features
 - Fetch basic user profile details, favorite games, and stats.
-- Extract the latest user review with ratings, play types, and review text format.
-- Built-in error handling for missing users or empty review histories.
+- Extract the latest user review with ratings, play types, and formatted review text with line breaks preserved.
+- Dual ESM and CommonJS support (`import` / `require`).
+- Built-in error handling for missing users or empty review histories with original error causes attached.
 
 ## Usage
 ### 1. Get user profile information
 Retrieve a user's bio, avatar, social links, favorite games, and profile stats.
 
+#### ES Modules (ES6)
+
 ```js
-const { userInfo } = require('backloggd-wrapper');
+import { userInfo } from 'backloggd-wrapper';
+
+async function getUser() {
+    try {
+        const data = await userInfo('username');
+        console.log(data);
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+getUser();
+```
+
+#### CommonJS
+
+```js
+const { userInfo } = await import('backloggd-wrapper');
 
 async function getUser() {
     try {
@@ -62,8 +82,27 @@ getUser();
 ### 2. Get latest user review
 Retrieve details about the most recent review published by a given user.
 
+#### ES Modules (ES6)
+
 ```js
-const { latestReview } = require('backloggd-wrapper');
+import { latestReview } from 'backloggd-wrapper';
+
+async function getReview() {
+    try {
+        const review = await latestReview('username');
+        console.log(review);
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+getReview();
+```
+
+#### CommonJS
+
+```js
+const { latestReview } = await import('backloggd-wrapper');
 
 async function getReview() {
     try {
@@ -99,9 +138,11 @@ getReview();
 ```
 
 ## Error handling
-All functions throw errors with descriptive messages. You can access the original underlying error via error.cause.
+All functions throw errors with descriptive messages. You can access the original underlying error via `error.cause`.
 
 ```js
+import { userInfo } from 'backloggd-wrapper';
+
 try {
     await userInfo('invalid_username_12345');
 } catch (error) {
@@ -111,3 +152,6 @@ try {
     }
 }
 ```
+
+## License
+MIT

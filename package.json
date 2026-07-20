@@ -1,6 +1,6 @@
 {
   "name": "backloggd-wrapper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A lightweight Node.js wrapper for scraping user profiles, statistics, and review data from Backloggd.",
   "keywords": [
     "backloggd",
@@ -22,8 +22,14 @@
     "name": "Luis Gabriel Araújo",
     "email": "luisgabrielaraujo8@gmail.com"
   },
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.js"
+    }
+  },
   "scripts": {
     "test": "node test.js"
   },
