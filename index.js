@@ -105,7 +105,7 @@ export async function latestReview(username) {
         }
 
         const playType = $('.user-reviews').find('.play-type').first().text().trim() || null;
-        const mastered = $('.user-reviews .mastered-icon').length > 0;
+        const mastered = $('.review-card').first().find('.mastered-icon').length > 0;
         const platform = $('.review-platform p').first().text().trim() || null;
         const datetime = $('.user-reviews').find('time').first().attr('datetime') || null;
 
