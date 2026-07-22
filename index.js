@@ -146,3 +146,50 @@ export async function latestReview(username) {
         throw new Error(`Error fetching the latest review for '${username}'.`, { cause: err });
     }
 }
+
+export async function getBadges(username) {
+    try {
+        const response = await client.get(`${baseUrl}/u/${username}/badges`);
+        const html = response.data;
+        const $ = cheerio.load(html);
+
+        let earned = [];
+        let locked = [];
+
+        $('.badge-display').each((_, el) => {
+            const $badge = $(el);
+            const imgSrc = $badge.find('img').attr('src');
+
+            if (!imgSrc) return;
+
+            const title = $badge.find('.badge-title').text().trim();
+            const description = $badge.find('.badge-desc').text().trim();
+
+            if (imgSrc.includes('badge_locked.png')) {
+                locked.push({
+                    title,
+                    description,
+                    image: imgSrc
+                });
+            } else {
+                const earnedOn = $badge.find('.badge-date time').attr('datetime') || null;
+                earned.push({
+                    title,
+                    description,
+                    image: imgSrc,
+                    earnedOn
+                });
+            }
+        });
+
+        return {
+            earned,
+            // locked
+        };
+    } catch (err) {
+        if (err.message && err.message.includes("No badges found"))
+            throw err;
+
+        throw new Error(`Error fetching badges for '${username}'.`, { cause: err });
+    }
+}

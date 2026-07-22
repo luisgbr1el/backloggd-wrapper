@@ -1,4 +1,4 @@
-import { userInfo, latestReview } from './index.js';
+import { userInfo, latestReview, getBadges } from './index.js';
 
 async function test() {
     try {
@@ -7,6 +7,9 @@ async function test() {
 
         const review = await latestReview("luisgbr1el");
         console.log(review);
+
+        const badges = await getBadges("luisgbr1el");
+        console.log(badges);
     } catch (error) {
         console.error("Error:", error.message);
         
