@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import allBadges from './assets/badges.json' with { type: 'json' };
 
 const baseUrl = "https://backloggd.com";
 
@@ -153,38 +154,40 @@ export async function getBadges(username) {
         const html = response.data;
         const $ = cheerio.load(html);
 
-        let earned = [];
-        let locked = [];
+        const userBadgesMap = new Map();
 
         $('.badge-display').each((_, el) => {
             const $badge = $(el);
-            const imgSrc = $badge.find('img').attr('src');
+            const rawTitle = $badge.find('.badge-title').text().trim();
+            const timeEl = $badge.find('.badge-date time');
 
-            if (!imgSrc) return;
+            if (rawTitle && timeEl.length > 0) {
+                const earnedOn = timeEl.attr('datetime') || null;
 
-            const title = $badge.find('.badge-title').text().trim();
-            const description = $badge.find('.badge-desc').text().trim();
+                const normalizedTitle = rawTitle.includes("Years of Service") ? "Years of Service" : rawTitle;
 
-            if (imgSrc.includes('badge_locked.png')) {
-                locked.push({
-                    title,
-                    description,
-                    image: imgSrc
-                });
-            } else {
-                const earnedOn = $badge.find('.badge-date time').attr('datetime') || null;
-                earned.push({
-                    title,
-                    description,
-                    image: imgSrc,
-                    earnedOn
-                });
+                userBadgesMap.set(normalizedTitle, earnedOn);
             }
         });
 
+        let earned = [];
+        let locked = [];
+
+        allBadges.forEach(badge => {
+            if (userBadgesMap.has(badge.title)) {
+                earned.push({
+                    ...badge,
+                    earnedOn: userBadgesMap.get(badge.title)
+                });
+            } else
+                locked.push({ ...badge });
+        });
+
+        earned.sort((a, b) => new Date(a.earnedOn) - new Date(b.earnedOn));
+
         return {
             earned,
-            // locked
+            locked
         };
     } catch (err) {
         if (err.message && err.message.includes("No badges found"))

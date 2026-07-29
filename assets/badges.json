@@ -1,0 +1,137 @@
+[
+    {
+        "title": "Liked",
+        "description": "Gained 10+ total review likes",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/total_review_likes.svg"
+    },
+    {
+        "title": "Loved",
+        "description": "Gained 100+ total review likes",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/total_review_likes2.svg"
+    },
+    {
+        "title": "Adored",
+        "description": "Gained 300+ total review likes",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/total_review_likes3.svg"
+    },
+    {
+        "title": "Treasured",
+        "description": "Gained 750+ total review likes",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/total_review_likes4.svg"
+    },
+    {
+        "title": "N00b",
+        "description": "Played 50+ games",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/total_played.svg"
+    },
+    {
+        "title": "Noticed",
+        "description": "Gained 3+ followers",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/followers.svg"
+    },
+    {
+        "title": "Popular",
+        "description": "Gained 15+ followers",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/followers2.svg"
+    },
+    {
+        "title": "Trend Setter",
+        "description": "Gained 50+ followers",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/followers3.svg"
+    },
+    {
+        "title": "Famous",
+        "description": "Gained 100+ followers",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/followers4.svg"
+    },
+    {
+        "title": "Well Written",
+        "description": "Gained 10+ likes on a single review",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/single_review_likes.svg"
+    },
+    {
+        "title": "On Schedule",
+        "description": "Journaled games once a day for a week straight",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/journal_week.svg"
+    },
+    {
+        "title": "Full-Time",
+        "description": "Journaled games once a day for a month straight",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/journal_month.svg"
+    },
+    {
+        "title": "Busy Day",
+        "description": "Journaled 5+ games in a single day",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/journal_busy.svg"
+    },
+    {
+        "title": "Listed",
+        "description": "Created 10+ public lists",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/total_lists.svg"
+    },
+    {
+        "title": "Swamped",
+        "description": "Found the secret ogre page",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/found_404.svg"
+    },
+    {
+        "title": "Donor",
+        "description": "Liked 50+ reviews / lists",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/donor.svg"
+    },
+    {
+        "title": "Best Friends",
+        "description": "Become mutual friends with at least 3 others",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/total_friends.svg"
+    },
+    {
+        "title": "Organized",
+        "description": "Created a list folder with 5+ lists",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/folder_lists.svg"
+    },
+    {
+        "title": "Gone Gold",
+        "description": "Received 5+ likes on a review while featured on the front page",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/front_page_liked.svg"
+    },
+    {
+        "title": "Roadtrip",
+        "description": "Voted for at least 3 features on the roadmap",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/roadmap_likes.svg"
+    },
+    {
+        "title": "Years of Service",
+        "description": "Being part of the Backloggd community",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/years_of_service.svg"
+    },
+    {
+        "title": "Pinged",
+        "description": "Mentioned by another user",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/ping-new.svg"
+    },
+    {
+        "title": "Early Access",
+        "description": "Submitted feedback for a beta feature",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/feedback.svg"
+    },
+    {
+        "title": "Top Shelf",
+        "description": "Liked 25+ games",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/games_liked.svg"
+    },
+    {
+        "title": "Replay '15",
+        "description": "Participated in the 2015 Replay Event",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/replay-2015.svg"
+    },
+    {
+        "title": "GOTY '25",
+        "description": "Participated in the 2025 Game of the Year Event",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/goty-2025.svg"
+    },
+    {
+        "title": "Replay '98",
+        "description": "Participated in the 1998 Replay Event",
+        "logo": "https://backloggd.b-cdn.net/badges-v2/replay-1998.svg"
+    }
+]
