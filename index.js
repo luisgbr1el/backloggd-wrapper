@@ -1,18 +1,56 @@
-import axios from 'axios';
+import puppeteer from 'puppeteer-extra';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import * as cheerio from 'cheerio';
 import allBadges from './assets/badges.json' with { type: 'json' };
 
+puppeteer.use(StealthPlugin());
+
 const baseUrl = "https://backloggd.com";
 
-const client = axios.create({
-    headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7',
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
+let browserInstance = null;
+
+async function getBrowser() {
+    if (!browserInstance || !browserInstance.connected) {
+        browserInstance = await puppeteer.launch({
+            headless: 'new',
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-accelerated-2d-canvas',
+                '--disable-gpu',
+                '--window-size=1280,800'
+            ]
+        });
     }
-});
+    return browserInstance;
+}
+
+async function fetchHtmlWithBypass(url) {
+    const browser = await getBrowser();
+    const page = await browser.newPage();
+
+    try {
+        await page.setViewport({ width: 1280, height: 800 });
+        await page.setExtraHTTPHeaders({
+            'Accept-Language': 'en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7'
+        });
+
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+
+        await page.waitForFunction(() => {
+            const hasAnubis = document.body && document.body.innerText.includes("Certificando de que você não é um bot");
+            return !hasAnubis;
+        }, { timeout: 20000 }).catch(() => { });
+
+        await page.waitForSelector('.avatar, .user-reviews, .badge-display', { timeout: 10000 }).catch(() => { });
+
+        const html = await page.content();
+        return html;
+    } finally {
+        await page.close();
+    }
+}
 
 function parseNumber(val) {
     if (!val) return null;
@@ -23,8 +61,7 @@ function parseNumber(val) {
 
 export async function userInfo(username) {
     try {
-        const response = await client.get(`${baseUrl}/u/${username}`);
-        const html = response.data;
+        const html = await fetchHtmlWithBypass(`${baseUrl}/u/${username}`);
         const $ = cheerio.load(html);
 
         let profileLinks = [];
@@ -81,8 +118,7 @@ export async function userInfo(username) {
 
 export async function latestReview(username) {
     try {
-        const response = await client.get(`${baseUrl}/u/${username}/reviews`);
-        const html = response.data;
+        const html = await fetchHtmlWithBypass(`${baseUrl}/u/${username}/reviews`);
         const $ = cheerio.load(html);
 
         const reviewLinkEl = $('.user-reviews div .review-card .open-review-link').first().attr('href');
@@ -150,8 +186,7 @@ export async function latestReview(username) {
 
 export async function getBadges(username) {
     try {
-        const response = await client.get(`${baseUrl}/u/${username}/badges`);
-        const html = response.data;
+        const html = await fetchHtmlWithBypass(`${baseUrl}/u/${username}/badges`);
         const $ = cheerio.load(html);
 
         const userBadgesMap = new Map();
@@ -163,25 +198,49 @@ export async function getBadges(username) {
 
             if (rawTitle && timeEl.length > 0) {
                 const earnedOn = timeEl.attr('datetime') || null;
+                const description = $badge.find('.badge-desc').text().trim();
+                const logo = $badge.find('.badge-image img').attr('src') || $badge.find('img').attr('src') || null;
 
                 const normalizedTitle = rawTitle.includes("Years of Service") ? "Years of Service" : rawTitle;
 
-                userBadgesMap.set(normalizedTitle, earnedOn);
+                userBadgesMap.set(normalizedTitle, {
+                    title: rawTitle,
+                    description,
+                    logo,
+                    earnedOn
+                });
             }
         });
 
         let earned = [];
         let locked = [];
 
+        const processedTitles = new Set();
+
         allBadges.forEach(badge => {
             if (userBadgesMap.has(badge.title)) {
+                const parsed = userBadgesMap.get(badge.title);
                 earned.push({
                     ...badge,
-                    earnedOn: userBadgesMap.get(badge.title)
+                    title: parsed.title,
+                    earnedOn: parsed.earnedOn
                 });
-            } else
+                processedTitles.add(badge.title);
+            } else {
                 locked.push({ ...badge });
+            }
         });
+
+        for (const [key, parsedBadge] of userBadgesMap.entries()) {
+            if (!processedTitles.has(key)) {
+                earned.push({
+                    title: parsedBadge.title,
+                    description: parsedBadge.description,
+                    logo: parsedBadge.logo,
+                    earnedOn: parsedBadge.earnedOn
+                });
+            }
+        }
 
         earned.sort((a, b) => new Date(a.earnedOn) - new Date(b.earnedOn));
 

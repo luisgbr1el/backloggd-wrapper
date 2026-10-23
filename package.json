@@ -1,6 +1,6 @@
 {
   "name": "backloggd-wrapper",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A lightweight Node.js wrapper for scraping user profiles, statistics, and review data from Backloggd.",
   "keywords": [
     "backloggd",
@@ -34,7 +34,12 @@
     "test": "node test.js"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^147.0.0",
     "axios": "^1.18.1",
-    "cheerio": "^1.2.0"
+    "cheerio": "^1.2.0",
+    "puppeteer": "^25.16.0",
+    "puppeteer-core": "^25.16.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
 }
